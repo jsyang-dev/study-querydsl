@@ -25,7 +25,7 @@ class MemberJpaRepositoryTest {
     MemberJpaRepository memberJpaRepository;
 
     @Test
-    public void basicTest() {
+    void basicTest() {
 
         Member member = new Member("member1", 10);
         memberJpaRepository.save(member);
@@ -41,7 +41,7 @@ class MemberJpaRepositoryTest {
     }
 
     @Test
-    public void basicTest_Querydsl() {
+    void basicTest_Querydsl() {
 
         Member member = new Member("member1", 10);
         memberJpaRepository.save(member);
@@ -57,7 +57,7 @@ class MemberJpaRepositoryTest {
     }
 
     @Test
-    public void searchTest() {
+    void searchTest() {
 
         Team teamA = new Team("teamA");
         Team teamB = new Team("teamB");
@@ -84,7 +84,7 @@ class MemberJpaRepositoryTest {
     }
 
     @Test
-    public void searchTest2() {
+    void searchTest2() {
 
         Team teamA = new Team("teamA");
         Team teamB = new Team("teamB");

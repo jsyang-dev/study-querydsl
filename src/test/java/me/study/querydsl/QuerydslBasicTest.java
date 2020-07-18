@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-public class QuerydslBasicTest {
+class QuerydslBasicTest {
 
     @Autowired
     EntityManager em;
@@ -41,7 +41,7 @@ public class QuerydslBasicTest {
     JPAQueryFactory queryFactory;
 
     @BeforeEach
-    public void before() {
+    void before() {
 
         queryFactory = new JPAQueryFactory(em);
 
@@ -61,7 +61,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void startJPQL() {
+    void startJPQL() {
 
         String query = "select m from Member m " +
                 "where m.username = :username";
@@ -74,7 +74,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void startQuerydsl() {
+    void startQuerydsl() {
 
         Member findMember = queryFactory
                 .selectFrom(member)
@@ -86,7 +86,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void search() {
+    void search() {
 
         Member findMember = queryFactory
                 .selectFrom(member)
@@ -98,7 +98,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void searchAndParam() {
+    void searchAndParam() {
 
         Member findMember = queryFactory
                 .selectFrom(member)
@@ -109,7 +109,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void resultFetch() {
+    void resultFetch() {
 
         List<Member> fetch = queryFactory
                 .selectFrom(member)
@@ -137,7 +137,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void sort() {
+    void sort() {
 
         em.persist(new Member(null, 100));
         em.persist(new Member("member5", 100));
@@ -158,7 +158,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void paging1() {
+    void paging1() {
 
         List<Member> result = queryFactory
                 .selectFrom(member)
@@ -171,7 +171,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void paging2() {
+    void paging2() {
 
         QueryResults<Member> queryResults = queryFactory
                 .selectFrom(member)
@@ -187,7 +187,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void aggregation() {
+    void aggregation() {
 
         List<Tuple> result = queryFactory
                 .select(
@@ -209,7 +209,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void group() {
+    void group() {
 
         List<Tuple> result = queryFactory
                 .select(team.name, member.age.avg())
@@ -229,7 +229,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void join() {
+    void join() {
 
         List<Member> result = queryFactory
                 .selectFrom(member)
@@ -243,7 +243,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void theta_join() {
+    void theta_join() {
 
         em.persist(new Member("teamA"));
         em.persist(new Member("teamB"));
@@ -261,7 +261,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void join_on_filtering() {
+    void join_on_filtering() {
 
         List<Tuple> result = queryFactory
                 .select(member, team)
@@ -276,7 +276,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void join_on_no_relation() {
+    void join_on_no_relation() {
 
         em.persist(new Member("teamA"));
         em.persist(new Member("teamB"));
@@ -298,7 +298,7 @@ public class QuerydslBasicTest {
     EntityManagerFactory emf;
 
     @Test
-    public void fetchNoJoin() {
+    void fetchNoJoin() {
 
         em.flush();
         em.clear();
@@ -313,7 +313,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void fetchJoinUse() {
+    void fetchJoinUse() {
 
         em.flush();
         em.clear();
@@ -333,7 +333,7 @@ public class QuerydslBasicTest {
      * 나이가 가장 많은 회원 조회
      */
     @Test
-    public void subQuery() {
+    void subQuery() {
 
         QMember memberSub = new QMember("memberSub");
 
@@ -352,7 +352,7 @@ public class QuerydslBasicTest {
      * 나이가 평균 이상인 회원
      */
     @Test
-    public void subQueryGoe() {
+    void subQueryGoe() {
 
         QMember memberSub = new QMember("memberSub");
 
@@ -368,7 +368,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void subQueryIn() {
+    void subQueryIn() {
 
         QMember memberSub = new QMember("memberSub");
 
@@ -385,7 +385,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void selectSubQuery() {
+    void selectSubQuery() {
 
         QMember memberSub = new QMember("memberSub");
 
@@ -402,7 +402,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void basicCase() {
+    void basicCase() {
 
         List<String> result = queryFactory
                 .select(member.age
@@ -418,7 +418,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void complexCase() {
+    void complexCase() {
 
         List<String> result = queryFactory
                 .select(new CaseBuilder()
@@ -434,7 +434,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void constant() {
+    void constant() {
 
         List<Tuple> result = queryFactory
                 .select(member.username, Expressions.constant("A"))
@@ -447,7 +447,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void concat() {
+    void concat() {
 
         List<String> result = queryFactory
                 .select(member.username.concat("_").concat(member.age.stringValue()))
@@ -461,7 +461,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void simpleProjection() {
+    void simpleProjection() {
 
         List<String> result = queryFactory
                 .select(member.username)
@@ -474,7 +474,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void tupleProjection() {
+    void tupleProjection() {
 
         List<Tuple> result = queryFactory
                 .select(member.username, member.age)
@@ -490,7 +490,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void findDtoByJPQL() {
+    void findDtoByJPQL() {
 
         List<MemberDto> result = em.createQuery("select new me.study.querydsl.dto.MemberDto(m.username, m.age) from Member m", MemberDto.class)
                 .getResultList();
@@ -501,7 +501,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void findDtoBySetter() {
+    void findDtoBySetter() {
 
         List<MemberDto> result = queryFactory
                 .select(Projections.bean(MemberDto.class,
@@ -516,7 +516,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void findDtoByField() {
+    void findDtoByField() {
 
         List<MemberDto> result = queryFactory
                 .select(Projections.fields(MemberDto.class,
@@ -531,7 +531,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void findDtoByConstructor() {
+    void findDtoByConstructor() {
 
         List<MemberDto> result = queryFactory
                 .select(Projections.constructor(MemberDto.class,
@@ -546,7 +546,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void findUserDto() {
+    void findUserDto() {
 
         QMember memberSub = new QMember("memberSub");
 
@@ -566,7 +566,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void findDtoByQueryProjection() {
+    void findDtoByQueryProjection() {
 
         List<MemberDto> result = queryFactory
                 .select(new QMemberDto(member.username, member.age))
@@ -579,7 +579,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void dynamicQuery_BooleanBuilder() {
+    void dynamicQuery_BooleanBuilder() {
 
         String usernameParam = "member1";
         Integer ageParam = 10;
@@ -605,7 +605,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void dynamicQuery_WhereParam() {
+    void dynamicQuery_WhereParam() {
 
         String usernameParam = "member1";
         Integer ageParam = 10;
@@ -636,7 +636,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void bulkUpdate() {
+    void bulkUpdate() {
 
         long count = queryFactory
                 .update(member)
@@ -657,7 +657,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void bulkAdd() {
+    void bulkAdd() {
 
         long count = queryFactory
                 .update(member)
@@ -666,7 +666,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void bulkDelete() {
+    void bulkDelete() {
 
         long count = queryFactory
                 .delete(member)
@@ -675,7 +675,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void sqlFunction() {
+    void sqlFunction() {
 
         List<String> result = queryFactory
                 .select(
@@ -691,7 +691,7 @@ public class QuerydslBasicTest {
     }
 
     @Test
-    public void sqlFunction2() {
+    void sqlFunction2() {
 
         List<String> result = queryFactory
                 .select(member.username)
